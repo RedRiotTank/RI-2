@@ -1,0 +1,10 @@
+<configuration>
+    <!-- Otras configuraciones de Logback aquí -->
+
+    <!-- Configuración para descartar todos los registros -->
+    <root level="OFF">
+        <appender-ref ref="discard" />
+    </root>
+
+    <appender name="discard" class="ch.qos.logback.core.sink.DiscardSink" />
+</configuration>
