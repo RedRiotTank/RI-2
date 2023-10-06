@@ -1,5 +1,6 @@
 package ri.core;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.tika.exception.TikaException;
 
 import java.io.File;
@@ -48,18 +49,64 @@ public class FileProc {
         return getAFinfo( (file) -> file.getName());
     }
 
-    //generate all files csv wordcount
-    public void generateAFCSVwc() throws TikaException, IOException {
+
+
+
+
+    public void generateAllFilesTextProcWordCount() {
         for (File file : files) {
-            String filename = utils.rmExtension(file.getName());
-            generateFCSVwc(TextProc.getOrderedWordCount(file), filename);
+            generateTextProcWordCount(file);
         }
     }
+
+    public void generateAllFilesAllAnalyzersWordCount(){
+        for(Analyzer analyzer : AnalyzerProc.getAnalyzers()){
+            try {
+                generateAllFilesAnalyzerProcWordCount(analyzer);
+            } catch (TikaException | IOException e) {
+                System.err.println("Error al procesar los ficheros");
+            }
+        }
+    }
+
+    public void generateAllFilesAnalyzerProcWordCount(Analyzer analyzer) throws TikaException, IOException {
+        for (File file : files) {
+            generateAnalyzerProcWordCount(file, analyzer);
+        }
+    }
+
+
+    public void generateAnalyzerProcWordCount(File file,Analyzer analyzer){
+
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        try {
+            frequencyMap = AnalyzerProc.countTokenFrequencies(analyzer, TextProc.getFileText(file));
+        } catch (IOException e) {
+            System.err.println("Error al procesar los ficheros");
+        }
+        generateWordCountCSV(frequencyMap, file.getName(), "Lucene-" + analyzer.getClass().getSimpleName());
+    }
+    public void generateTextProcWordCount(File file){
+
+        if(file.getName().endsWith(".csv")) return;
+
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        try {
+            frequencyMap = TextProc.countTermFrequencies(file);
+        } catch (TikaException | IOException e) {
+            System.err.println("Error al procesar los ficheros");
+        }
+        generateWordCountCSV(frequencyMap, file.getName(), "TextProc");
+    }
+
+
+
     //generate file csv wordcount
-    public void generateFCSVwc(List<Map.Entry<String, Integer>> sortedEntries, String filename){
-        String csvPath = FOLDER_PATH + filename + ".csv";
+    private void generateWordCountCSV(Map<String, Integer> frequencyMap, String filename, String type){
+        String csvPath = FOLDER_PATH + type + " " + Utils.rmExtension(filename) + ".csv";
 
         try (FileWriter csvWriter = new FileWriter(csvPath)) {
+            List<Map.Entry<String, Integer>> sortedEntries = Utils.orderFrequencyMap(frequencyMap);
             for (Map.Entry<String, Integer> entry : sortedEntries) {
                 csvWriter.write(entry.getKey() + ";" + entry.getValue() + "\n");
             }
@@ -69,6 +116,10 @@ public class FileProc {
 
         System.out.println("CSV generado para " + filename);
     }
+
+
+
+
 
     public Set<File> getFiles() {
         return files;
