@@ -111,7 +111,7 @@ public class TextProc {
             InputStream is = new FileInputStream(file);
             Metadata metadata = new Metadata();
             // Si es html se necesita otro parser y por lo tanto otros handlde...
-            if(utils.isHTML(file)){
+            if(Utils.isHTML(file)){
 
                 LinkContentHandler linkContentHandler = new LinkContentHandler();
                 ContentHandler textHandler = new BodyContentHandler(tika.getMaxStringLength());
@@ -186,12 +186,14 @@ public class TextProc {
         return processedText;
     }
 
-    public static List<Map.Entry<String, Integer>> getOrderedWordCount(File file) throws TikaException, IOException {
+
+
+    public static Map<String, Integer> countTermFrequencies(File file) throws TikaException, IOException {
         String content = processText(tika.parseToString(file));
 
         Map<String, Integer> termFrequencyMap = countTermFrequencies(content);
 
-        return utils.orderTerms(termFrequencyMap);
+        return termFrequencyMap;
     }
 
     private static Map<String, Integer> countTermFrequencies(String content) {
@@ -204,6 +206,15 @@ public class TextProc {
         return termFrequencyMap;
     }
 
+    public static String getFileText(File file){
+        String text = null;
+        try {
+            text = tika.parseToString(file);
+        } catch (IOException | TikaException e) {
+            throw new RuntimeException(e);
+        }
+        return text;
+    }
 
 
 }
