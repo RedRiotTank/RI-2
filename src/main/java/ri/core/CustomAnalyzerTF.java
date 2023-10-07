@@ -42,8 +42,8 @@ public class CustomAnalyzerTF extends Analyzer {
             case "stop" -> new StopFilter(source, stopWords); // elimina las palabras que queramos
             case "snowball" -> new SnowballFilter(source, new SpanishStemmer()); // se queda con la raiz de la palabra
             case "shingle" -> new ShingleFilter(source); // hace combinaciones de tokens para la busqueda
-            case "edgeN" -> new EdgeNGramTokenFilter(source,1,2,true); // crea bigramas de tamaño entre min y max, DESDE LOS BORDES . El booleano es para conservar el original o no
-            case "Ngram" -> new NGramTokenFilter(source,1,2,true); // crea bigramas sin importarle los bordes, genera todas las combinaciones del tamaño pasado
+            case "edgeN" -> new EdgeNGramTokenFilter(source,1,2); // crea bigramas de tamaño entre min y max, DESDE LOS BORDES . El booleano es para conservar el original o no
+            case "Ngram" -> new NGramTokenFilter(source,1,2); // crea bigramas sin importarle los bordes, genera todas las combinaciones del tamaño pasado
             case "commom" -> new CommonGramsFilter(source, stopWords); // genera bigramas con las palabras comunes pasadas que se encuentren en el texto
             case "synonym" -> new SynonymGraphFilter(source, synonymMap, true);
             default -> new StandardFilter(source);

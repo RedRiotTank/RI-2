@@ -125,4 +125,7 @@ public class FileProc {
         return files;
     }
 
+    public String getFolferPath(){
+        return FOLDER_PATH;
+    }
 }
