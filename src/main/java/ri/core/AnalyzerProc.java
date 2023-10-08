@@ -1,18 +1,15 @@
 package ri.core;
 
+import moodAnalyzer.Mood;
+import moodAnalyzer.MoodAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.pattern.PatternReplaceCharFilterFactory;
-import org.apache.lucene.analysis.standard.ClassicTokenizerFactory;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,7 +27,10 @@ public class AnalyzerProc {
     private static final Analyzer keywordAnalyzer = new KeywordAnalyzer();
     private static final Analyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
     private static final Analyzer simpleAnalyzer = new SimpleAnalyzer();
-    private static final Analyzer spanish = new SpanishAnalyzer();
+    private static final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
+
+    private static final Analyzer positiveAnalyzer = new MoodAnalyzer(Mood.POSITIVE);
+    private static final Analyzer negativeAnalyzer = new MoodAnalyzer(Mood.NEGATIVE);
 
 
     public static Analyzer getStandardAnalyzer() {
@@ -49,8 +49,16 @@ public class AnalyzerProc {
         return simpleAnalyzer;
     }
 
-    public static Analyzer getSpanish() {
-        return spanish;
+    public static SpanishAnalyzer getSpanishAnalyzer() {
+        return spanishAnalyzer;
+    }
+
+    public static Analyzer getPositiveAnalyzer() {
+        return positiveAnalyzer;
+    }
+
+    public static Analyzer getNegativeAnalyzer() {
+        return negativeAnalyzer;
     }
 
 
@@ -97,7 +105,7 @@ public class AnalyzerProc {
                         getKeywordAnalyzer(),
                         getWhitespaceAnalyzer(),
                         getSimpleAnalyzer(),
-                        getSpanish()
+                        getSpanishAnalyzer()
                 ));
     }
 

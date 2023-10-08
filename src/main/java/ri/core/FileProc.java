@@ -1,5 +1,6 @@
 package ri.core;
 
+import moodAnalyzer.MoodAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.tika.exception.TikaException;
 
@@ -17,6 +18,21 @@ public class FileProc {
     FileProc(String folderPath) {
         this.FOLDER_PATH = folderPath;
         loadFolderFiles(folderPath);
+    }
+
+    public static Set<String> getMapedWords(String filePath){
+        Set<String> words = new HashSet<>();
+
+        try {
+            Scanner scanner = new Scanner(new File(filePath));
+            while (scanner.hasNextLine()) {
+                words.add(scanner.nextLine());
+            }
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return words;
     }
 
     private void loadFolderFiles(String folderPath){
@@ -59,6 +75,11 @@ public class FileProc {
         }
     }
 
+    public void generateAllFilesMoodWordCount() throws TikaException, IOException {
+        generateAllFilesAnalyzerProcWordCount(AnalyzerProc.getPositiveAnalyzer());
+        generateAllFilesAnalyzerProcWordCount(AnalyzerProc.getNegativeAnalyzer());
+    }
+
     public void generateAllFilesAllAnalyzersWordCount(){
         for(Analyzer analyzer : AnalyzerProc.getAnalyzers()){
             try {
@@ -78,13 +99,19 @@ public class FileProc {
 
     public void generateAnalyzerProcWordCount(File file,Analyzer analyzer){
 
+        String lucene = "Lucene-";
+
         Map<String, Integer> frequencyMap = new HashMap<>();
         try {
             frequencyMap = AnalyzerProc.countTokenFrequencies(analyzer, TextProc.getFileText(file));
         } catch (IOException e) {
             System.err.println("Error al procesar los ficheros");
         }
-        generateWordCountCSV(frequencyMap, file.getName(), "Lucene-" + analyzer.getClass().getSimpleName());
+
+        if(analyzer instanceof MoodAnalyzer)
+            lucene += "Mood-" + ((MoodAnalyzer) analyzer).getMood();
+
+        generateWordCountCSV(frequencyMap, file.getName(), lucene + analyzer.getClass().getSimpleName());
     }
     public void generateTextProcWordCount(File file){
 

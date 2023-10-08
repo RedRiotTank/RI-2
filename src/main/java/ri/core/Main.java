@@ -1,5 +1,8 @@
 package ri.core;
 
+import moodAnalyzer.Mood;
+import moodAnalyzer.MoodAnalyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.tika.exception.TikaException;
 
 import java.io.IOException;
@@ -42,10 +45,10 @@ public class Main {
 
             case "-allAnalyzers":
                 fp.generateAllFilesAllAnalyzersWordCount();
-
-
                 break;
 
+            case "-checkMood":
+                fp.generateAllFilesMoodWordCount();
         }
 
         System.out.println();
