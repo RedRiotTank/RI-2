@@ -2,6 +2,7 @@ package ri.core;
 
 import moodAnalyzer.MoodAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.tika.exception.TikaException;
 
 import java.io.File;
@@ -144,12 +145,11 @@ public class FileProc {
         System.out.println("CSV generado para " + filename);
     }
 
-
-
-
-
     public Set<File> getFiles() {
         return files;
     }
 
+    public String getFolferPath(){
+        return FOLDER_PATH;
+    }
 }

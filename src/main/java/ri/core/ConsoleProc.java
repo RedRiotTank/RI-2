@@ -1,6 +1,7 @@
 package ri.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
@@ -9,11 +10,13 @@ public class ConsoleProc {
     private final FileProc fp;
     private final TextProc tp;
 
+    private final AnalyzerProc ap;
 
 
-    ConsoleProc(FileProc fp, TextProc tp){
+    ConsoleProc(FileProc fp, TextProc tp, AnalyzerProc ap){
         this.fp = fp;
         this.tp = tp;
+        this.ap = ap;
     }
 
     public void printTable() {
@@ -52,6 +55,22 @@ public class ConsoleProc {
             for (String link : links)
                 System.out.println("    " + link + "\n");
             System.out.println("-------------------------------------------------------------");
+        }
+    }
+
+    public void processFolderPrintTokenFilter() throws IOException {
+        File folder = new File(fp.getFolferPath());
+        if(folder.isDirectory()){
+            File[] files = folder.listFiles();
+
+            if(files != null){
+                for(File file : files){
+                    if(file.isFile()){
+                        System.out.println("Resultados tokenFilters en el fichero " + file.getName() + "\n");
+                        ap.printTokenFilterResults(file);
+                    }
+                }
+            }
         }
     }
 
