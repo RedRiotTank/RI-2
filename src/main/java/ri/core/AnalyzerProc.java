@@ -143,8 +143,8 @@ public class AnalyzerProc extends Analyzer{
             case "stop" -> new StopFilter(source, stopWords); // elimina las palabras que queramos
             case "snowball" -> new SnowballFilter(source, new SpanishStemmer()); // se queda con la raiz de la palabra
             case "shingle" -> new ShingleFilter(source); // hace combinaciones de tokens para la busqueda
-            case "edgeN" -> new EdgeNGramTokenFilter(source,1,3); // crea bigramas de tamaño entre min y max, DESDE LOS BORDES . El booleano es para conservar el original o no
-            case "Ngram" -> new NGramTokenFilter(source,1,3); // crea bigramas sin importarle los bordes, genera todas las combinaciones del tamaño pasado
+            case "edgeN" -> new EdgeNGramTokenFilter(source,3,5); // crea bigramas de tamaño entre min y max, DESDE LOS BORDES . El booleano es para conservar el original o no
+            case "Ngram" -> new NGramTokenFilter(source,3,4); // crea bigramas sin importarle los bordes, genera todas las combinaciones del tamaño pasado
             case "commom" -> new CommonGramsFilter(source, stopWords); // genera bigramas con las palabras comunes pasadas que se encuentren en el texto
             case "synonym" -> new SynonymGraphFilter(source, synonymMap, true);
             default -> new StandardFilter(source);
@@ -158,6 +158,24 @@ public class AnalyzerProc extends Analyzer{
         stopWords.add("el");
         stopWords.add("un");
         stopWords.add("y");
+        stopWords.add("en");
+        stopWords.add("de");
+        stopWords.add("que");
+        stopWords.add("a");
+        stopWords.add("no");
+        stopWords.add("es");
+        stopWords.add("se");
+        stopWords.add("por");
+        stopWords.add("lo");
+        stopWords.add("como");
+        stopWords.add("para");
+        stopWords.add("más");
+        stopWords.add("pero");
+        stopWords.add("te");
+        stopWords.add("si");
+        stopWords.add("con");
+        stopWords.add("mi");
+        stopWords.add("su");
         return stopWords;
     }
     // para el synonym: cambiar para añadir o quitar sinonimos
@@ -167,18 +185,29 @@ public class AnalyzerProc extends Analyzer{
 
         builder.add(new CharsRef("gato"), new CharsRef("felino"), true);
         builder.add(new CharsRef("perro"), new CharsRef("canino"), true);
+        builder.add(new CharsRef("casa"), new CharsRef("hogar"), true);
+        builder.add(new CharsRef("comer"), new CharsRef("ingerir"), true);
+        builder.add(new CharsRef("auto"), new CharsRef("coche"), true);
+        builder.add(new CharsRef("niño"), new CharsRef("infante"), true);
+        builder.add(new CharsRef("feliz"), new CharsRef("contento"), true);
+        builder.add(new CharsRef("triste"), new CharsRef("melancólico"), true);
+        builder.add(new CharsRef("bueno"), new CharsRef("excelente"), true);
+        builder.add(new CharsRef("mal"), new CharsRef("negativo"), true);
 
         return builder.build();
     }
     // metodo que saca por pantalla el resultado de analizar un texto con un tokenFilter en especifico
     public void printTokenFilterResults(File file) throws IOException {
+        int tokens = 0;
         TokenStream tokenStream = this.tokenStream("field", TextProc.getFileText(file));
         CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 
         tokenStream.reset();
         while (tokenStream.incrementToken()){
             System.out.println(charTermAttribute.toString());
+            tokens++;
         }
+        System.out.println("\nSe han encontrado " + tokens + " tokens");
         tokenStream.end();
         tokenStream.close();
     }
