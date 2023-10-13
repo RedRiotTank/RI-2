@@ -118,7 +118,6 @@ public class AnalyzerProc extends Analyzer{
                 ));
     }
 
-
     public AnalyzerProc(String tokenFilter) {
         tokenFilterString = tokenFilter;
     }
@@ -153,7 +152,7 @@ public class AnalyzerProc extends Analyzer{
     }
     // editar para cambiar las palaabras a eliminar en el StopFilter
     private CharArraySet createWordsToDelete(){ // para el StopFilter
-        CharArraySet stopWords = new CharArraySet(4, true);
+        CharArraySet stopWords = new CharArraySet(21, true);
         stopWords.add("la");
         stopWords.add("el");
         stopWords.add("un");
