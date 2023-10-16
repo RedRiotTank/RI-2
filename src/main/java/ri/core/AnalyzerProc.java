@@ -31,7 +31,7 @@ import java.util.Map;
 public class AnalyzerProc extends Analyzer{
 
 
-    private static String tokenFilterString = "";
+    private static String tokenFilterString;
     private static final Analyzer standardAnalyzer = new StandardAnalyzer();
     private static final Analyzer keywordAnalyzer = new KeywordAnalyzer();
     private static final Analyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
@@ -104,8 +104,10 @@ public class AnalyzerProc extends Analyzer{
                 ));
     }
 
-    public AnalyzerProc(String tokenFilter) {
-        tokenFilterString = tokenFilter;
+    public AnalyzerProc(){}
+
+    public void setTokenFilterString(String tokenFilter){
+        this.tokenFilterString = tokenFilter;
     }
     // metodo de analyzer sobrecargado para poder cambiarle el tokenFilter
     @Override

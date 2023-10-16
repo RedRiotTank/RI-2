@@ -20,7 +20,8 @@ public class Main {
 
         FileProc fp = new FileProc(dir);
         TextProc tp = new TextProc(fp);
-        AnalyzerProc ap = new AnalyzerProc(filter);
+        AnalyzerProc ap = new AnalyzerProc();
+        ap.setTokenFilterString(filter);
 
         ConsoleProc cp = new ConsoleProc(fp, tp, ap);
 
