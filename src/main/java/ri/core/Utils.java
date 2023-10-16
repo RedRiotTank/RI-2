@@ -33,9 +33,8 @@ public class Utils {
         System.out.println("    -l: Print the table of the links in the directory");
         System.out.println("    -t: Generate the word count of the files in the directory in CSV format");
         System.out.println("    -allAnalyzers: Generate the word count of the files in the directory in CSV format for all analyzers");
-        System.out.println("    -tokenFilter: ? Important: needs filter option");
+        System.out.println("    -tokenFilter: Print the results of analyzing the files contained in a directory with the specified token filter ");
         System.out.println("    -checkMood: Generate the Mood word count of the files in the directory in CSV format");
 
     }
-
 }

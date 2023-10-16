@@ -113,7 +113,7 @@ public class AnalyzerProc extends Analyzer{
     public AnalyzerProc(){}
 
     public void setTokenFilterString(String tokenFilter){
-        this.tokenFilterString = tokenFilter;
+        tokenFilterString = tokenFilter;
     }
     // metodo de analyzer sobrecargado para poder cambiarle el tokenFilter
     @Override
