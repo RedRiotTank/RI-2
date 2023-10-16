@@ -41,6 +41,8 @@ public class AnalyzerProc extends Analyzer{
     private static final Analyzer positiveAnalyzer = new MoodAnalyzer(Mood.POSITIVE);
     private static final Analyzer negativeAnalyzer = new MoodAnalyzer(Mood.NEGATIVE);
 
+    private static final Analyzer neutralAnalyzer = new MoodAnalyzer(Mood.NEUTRAL);
+
 
     public static Analyzer getStandardAnalyzer() {
         return standardAnalyzer;
@@ -68,6 +70,10 @@ public class AnalyzerProc extends Analyzer{
 
     public static Analyzer getNegativeAnalyzer() {
         return negativeAnalyzer;
+    }
+
+    public static Analyzer getNeutralAnalyzer() {
+        return neutralAnalyzer;
     }
 
 

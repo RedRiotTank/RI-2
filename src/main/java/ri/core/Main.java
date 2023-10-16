@@ -7,16 +7,27 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException, TikaException {
 
-        if(args.length < 3){
-            System.out.println("No hay suficientes argumentos");
-            return;
-        } else if(args.length > 3){
-            System.out.println("Más argumentos de los necesarios");
+        if(args.length < 2){
+            System.out.println("Error in argument number");
+            Utils.printHelp();
             return;
         }
+
         String dir = args[0];
         String option = args[1];
-        String filter = args[2];
+        String filter = "";
+
+        if(option.equals("-tokenFilter")){
+            if(args.length < 3){
+                System.out.println("Error in argument number");
+                Utils.printHelp();
+                return;
+            } else filter = args[2];
+        } else if(args.length > 2){
+            System.out.println("Error in argument number");
+            Utils.printHelp();
+            return;
+        }
 
         FileProc fp = new FileProc(dir);
         TextProc tp = new TextProc(fp);

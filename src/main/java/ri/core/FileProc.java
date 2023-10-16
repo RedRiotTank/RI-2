@@ -74,6 +74,7 @@ public class FileProc {
     public void generateAllFilesMoodWordCount() throws TikaException, IOException {
         generateAllFilesAnalyzerProcWordCount(AnalyzerProc.getPositiveAnalyzer());
         generateAllFilesAnalyzerProcWordCount(AnalyzerProc.getNegativeAnalyzer());
+        generateAllFilesAnalyzerProcWordCount(AnalyzerProc.getNeutralAnalyzer());
     }
 
     public void generateAllFilesAllAnalyzersWordCount(){
