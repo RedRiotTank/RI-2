@@ -2,7 +2,6 @@ package ri.core;
 
 import moodAnalyzer.MoodAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.tika.exception.TikaException;
 
 import java.io.File;
@@ -63,12 +62,8 @@ public class FileProc {
         return info;
     }
     public ArrayList<String> getAFNames(){
-        return getAFinfo( (file) -> file.getName());
+        return getAFinfo(File::getName);
     }
-
-
-
-
 
     public void generateAllFilesTextProcWordCount() {
         for (File file : files) {

@@ -191,9 +191,7 @@ public class TextProc {
     public static Map<String, Integer> countTermFrequencies(File file) throws TikaException, IOException {
         String content = processText(tika.parseToString(file));
 
-        Map<String, Integer> termFrequencyMap = countTermFrequencies(content);
-
-        return termFrequencyMap;
+        return countTermFrequencies(content);
     }
 
     private static Map<String, Integer> countTermFrequencies(String content) {
@@ -207,7 +205,7 @@ public class TextProc {
     }
 
     public static String getFileText(File file){
-        String text = null;
+        String text;
         try {
             text = tika.parseToString(file);
         } catch (IOException | TikaException e) {

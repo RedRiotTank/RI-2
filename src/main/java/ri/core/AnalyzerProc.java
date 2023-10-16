@@ -93,20 +93,6 @@ public class AnalyzerProc extends Analyzer{
 
     }
 
-
-    private void iterateText(Analyzer analyzer, String text) throws IOException {
-        TokenStream result = analyzer.tokenStream(null, text);
-
-
-        result.reset();
-
-        while (result.incrementToken())
-            System.out.println(result.getAttribute(CharTermAttribute.class).toString());
-
-        result.end();
-        result.close();
-    }
-
     public static ArrayList<Analyzer> getAnalyzers(){
         return  new ArrayList<>(
                 Arrays.asList(
@@ -130,7 +116,7 @@ public class AnalyzerProc extends Analyzer{
 
        CharArraySet stopWords = createWordsToDelete();
 
-        SynonymMap synonymMap = null;
+        SynonymMap synonymMap;
         try {
             synonymMap = generateSynonymsMap();
         } catch (IOException e) {
@@ -150,7 +136,7 @@ public class AnalyzerProc extends Analyzer{
         };
         return new Analyzer.TokenStreamComponents(source, tokenFilter);
     }
-    // editar para cambiar las palaabras a eliminar en el StopFilter
+    // editar para cambiar las palabras a eliminar en el StopFilter
     private CharArraySet createWordsToDelete(){ // para el StopFilter
         CharArraySet stopWords = new CharArraySet(21, true);
         stopWords.add("la");

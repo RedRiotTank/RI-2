@@ -35,7 +35,8 @@ public class MoodAnalyzer extends Analyzer {
             FSDirectory directorioTemp;
 
             directorioTemp = FSDirectory.open(Paths.get("/temp"));
-            dictionary = new Dictionary(directorioTemp, "temporalFile", affixStream, dictStream);
+            if(affixStream != null)
+                dictionary = new Dictionary(directorioTemp, "temporalFile", affixStream, dictStream);
 
         } catch (Exception ignored) {}
 
@@ -44,9 +45,6 @@ public class MoodAnalyzer extends Analyzer {
 
         result = new HunspellStemFilter(source, dictionary, true, true);
 
-
-        // result = new LowerCaseFilter(result);
-        // result = new StopFilter(result, AnalyzerProc.getSpanishAnalyzer().getStopwordSet());
         try {
             result = new MoodFilter(result, mood);
         } catch (FileNotFoundException e) {

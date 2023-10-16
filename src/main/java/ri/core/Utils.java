@@ -1,7 +1,5 @@
 package ri.core;
 
-import org.apache.lucene.analysis.Analyzer;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
